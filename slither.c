@@ -1,14 +1,27 @@
 #include<stdio.h>
 #include<windows.h>
 #include<conio.h>
-#define x_size 41
-#define y_size 21
+#include <stdlib.h>
+#include <time.h>
+#define x_size 43
+#define y_size 23
 
 int print(int* a){
     system("cls");
     for(int i=0;i<y_size;i++){
         for(int j=0;j<x_size;j++){
-            printf("%d",*a);
+            if(*a==2){
+                printf("@");
+            }
+            else if(*a==9){
+                printf("X");
+            }
+            else if(*a==1){
+                printf("O");
+            }
+            else{
+                printf(" ");
+            }
             a++;
         }
         printf("\n");
@@ -32,9 +45,15 @@ int swap(int* a,char d){
         if(b==9){
             return 99;
         }
+        else if(b==2){
+            *(a+c)=0;
+            *(a+c+1)=1;
+            return 22;
+        }
         else{
             *(a+c)=0;
             *(a+c+1)=1;
+            return 1;
         }
     }
     if(d=='a'){
@@ -42,9 +61,15 @@ int swap(int* a,char d){
         if(b==9){
             return 99;
         }
+        else if(b==2){
+            *(a+c)=0;
+            *(a+c-1)=1;
+            return 22;
+        }
         else{
             *(a+c)=0;
             *(a+c-1)=1;
+            return 1;
         }
     }
     if(d=='w'){
@@ -52,9 +77,15 @@ int swap(int* a,char d){
         if(b==9){
             return 99;
         }
+        else if(b==2){
+            *(a+c)=0;
+            *(a+c-x_size)=1;;
+            return 22;
+        }
         else{
             *(a+c)=0;
             *(a+c-x_size)=1;
+            return 1;
         }
     }
     if(d=='s'){
@@ -62,9 +93,15 @@ int swap(int* a,char d){
         if(b==9){
             return 99;
         }
+        else if(b==2){
+            *(a+c)=0;
+            *(a+c+x_size)=1;
+            return 22;
+        }
         else{
             *(a+c)=0;
             *(a+c+x_size)=1;
+            return 1;
         }
     }
 }
@@ -77,8 +114,22 @@ int key(){
     return 0;
 }
 
+int random(int *a){
+    int b=0;
+    while(1){
+        if(*(a+b)==0){
+            *(a+b)=2;
+            break;
+        }
+        else{
+            b=(rand()%861)+1;
+        }
+    }
+}
+
 int main(){
-    int map[y_size][x_size];
+    srand(time(NULL));
+    int map[y_size][x_size],ran,l,test=0;
     char b='d',c;
     for(int i=0;i<y_size;i++){
         for(int j=0;j<x_size;j++){
@@ -91,8 +142,10 @@ int main(){
         }
     }
     map[5][10]=1;
+    random(&map[0][0]);
     while(1){
         print(&map[0][0]);
+        printf("\n %d",test);
         c=key();
         if(c=='a'||c=='s'||c=='d'||c=='w'){
             b=c;
@@ -101,6 +154,10 @@ int main(){
         Sleep(300);
         if(a==99){
             break;
+        }
+        if(a==22){
+            test++;
+            random(&map[0][0]);
         }
     }
 }
