@@ -33,14 +33,14 @@ int print(int* a){
                 printf(" ");
             }
             //꼬리 확인용
-
+            /*
             else if(*a==2){
                 printf("2");
             }
             else if(*a==4){
                 printf("4");
             }
-
+            */
             else{
                 printf("O");
             }
