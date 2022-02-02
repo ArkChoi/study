@@ -24,10 +24,10 @@ int print(int* a){
     for(int i=0;i<y_size;i++){
         for(int j=0;j<x_size;j++){
             if(*a==1001){
-                printf("@");
+                printf("G");
             }
             else if(*a==1000){
-                printf("X");
+                printf("#");
             }
             else if(*a==0){
                 printf(" ");
@@ -41,6 +41,10 @@ int print(int* a){
                 printf("4");
             }
             */
+           //지렁이 머리
+           else if(*a==1){
+                printf("@");
+            }
             else{
                 printf("O");
             }
@@ -136,11 +140,12 @@ int swap(int* a,char d, int e){
         }
     }
     if(g==33){
+        //먹이를 먹은 후 2일때는 추가 생성
         if(e==2){
             *(a+c)=e;
             return 33;
         }
-        //먹이를 먹은 후 꼬리 따라가기
+        //먹이를 먹은 후 꼬리 따라가기 3 이상
         for(int i=2;i<e;i++){
             //전의 지렁이 위치를 기억시킴
             f=c;
