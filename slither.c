@@ -24,13 +24,13 @@ int print(int* a){
     for(int i=0;i<y_size;i++){
         for(int j=0;j<x_size;j++){
             if(*a==1001){
-                printf("G");
+                printf("G");//지렁이 먹이모양
             }
             else if(*a==1000){
-                printf("#");
+                printf("#");//벽 모양
             }
             else if(*a==0){
-                printf(" ");
+                printf(" ");//공백
             }
             //꼬리 확인용
             /*
@@ -46,7 +46,7 @@ int print(int* a){
                 printf("@");
             }
             else{
-                printf("O");
+                printf("O");//지렁이 꼬리
             }
             a++;
         }
@@ -58,7 +58,7 @@ int print(int* a){
 int swap(int* a,char d, int e){
     int f,g,b = *a;
     int c=0;
-    //지렁이 위치를 찾음
+    //지렁이 머리 위치를 찾음
     while(1){
         b=*(a+c);
         if(b==1){
@@ -77,7 +77,7 @@ int swap(int* a,char d, int e){
             *(a+c+1)=1;
             g=33;
         }
-        //벽이나 꼬리에 만나면
+        //벽이나 꼬리에 만나면 게임 오버 조건(벽에 담 + 꼬리에 담)
         else if(b!=0){
             return 99;
         }
@@ -159,17 +159,18 @@ int swap(int* a,char d, int e){
                     c++;
                 }
             }
-            *(a+c)=e;
+            *(a+c)=e;//마지막 이동 위치에 새로운 숫자 투입
             *(a+f)=i;
         }
         return 33;
     }
     else{
-        //꼬리 따라가기
+        //꼬리 따라가기 갯수 상관없는 모든 꼬리를 따라가게 함
         for(int i=2;i<e;i++){
             //전의 지렁이 위치를 기억시킴
             f=c;
             c=0;
+            //i의 숫자에 맞는 꼬리 위치 찾기
             while(1){
                 b=*(a+c);
                 if(b==i){
@@ -179,8 +180,8 @@ int swap(int* a,char d, int e){
                  c++;
                 }
             }
-            *(a+c)=0;
-            *(a+f)=i;
+            *(a+c)=0;//본래 자리에 0 입력
+            *(a+f)=i;//전의 지렁이 위치에 i값을 입력
         }
         return 1;
     }
@@ -210,9 +211,9 @@ int random(int *a){
 }
 
 int main(){
-    //콘솔창 크기 지정 cols=가로 lines=세로
+    //콘솔창 크기 지정 cols=가로 lines=세로 | 타이틀 이름
     system("mode con cols=43 lines=24 | title slither");
-    //여기서 선언을 해줘야 랜덤이 제대로 정의 됨
+    //여기서 선언을 해줘야 랜덤이 한번만 정의 됨
     srand(time(NULL));
     int a,map[y_size][x_size],ran,l,eat=2;
     char b='d',c;
@@ -241,7 +242,7 @@ int main(){
         a=swap(&map[0][0],b,eat);
         //안쓰면 너무빨라서 사람이 못 쫓아감;;
         Sleep(50);
-        //게임 오버 조건(벽에 담 + 꼬리에 담)
+        //게임 오버 시
         if(a==99){
             gotoxy(17,11);
             printf("Game Over");
