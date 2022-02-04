@@ -1,138 +1,114 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <windows.h>
 #define x_size 3
 #define y_size 3
+/*
+메모리 위치 확인 코드
+    printf("\n")
+    for(int i=0;i<y_size;i++){
+         or(int j=0;j<x_size;j++){
+            printf("%p and ",&map[i][j]);
+        }
+        printf("\n1\n");
+    }
+*/
+
+int game_over(int* a){
+    int move=1;
+    for(int i=0;i<9;i++){
+        move *= *(a+i);
+    }
+    if(move!=0){
+        return 3;
+    }
+    else{
+        move = 0;
+    }
+    for(int i=0;i<3;i++){
+        if(*(a+move)**(a+1+move)**(a+2+move)==1||*(a+move)**(a+1+move)**(a+2+move)==8){
+            return *(a+move);
+            break;
+        }
+        else{
+            move+=3;
+        }
+    }
+    for(int i=0;i<3;i++){
+        if(*(a+i)**(a+3+i)**(a+6+i)==1||*(a+i)**(a+3+i)**(a+6+i)==8){
+            return *(a+i);
+            break;
+        }
+    }
+    if(*a**(a+4)**(a+8)==1||*a**(a+4)**(a+8)==8){
+        return *a;
+    }
+    else if(*(a+2)**(a+4)**(a+6)==1||*(a+2)**(a+4)**(a+6)==8){
+        return *(a+2);
+    }
+    else{
+        return 0;
+    }
+}
+
+int print(int* a){
+    //터미널 화면 지우기 windows 라이브러리 명령어
+    system("cls");
+    int move=0;
+    for(int i=0;i<y_size;i++){
+        for (int j=0;j<x_size;j++){
+            if(*(a+move)==1){
+                printf("O");
+            }
+            else if(*(a+move)==2){
+                printf("X");
+            }
+            else{
+                printf("*");
+            }
+            move++;
+        }
+        printf("\n");
+    }
+}
 
 int main(){
-re:
-   for(int i=0;i<y_size;i++){
-       for (int j=0;j<x_size;j++){
-           printf("*");
-       }
-       printf("\n");
-   }
-//메모리 위치 확인 코드
-//     printf("\n")
-//     for(int i=0;i<y_size;i++){
-//         for(int j=0;j<x_size;j++){
-//              printf("%p and ",&map[i][j]);
-//          }
-//          printf("\n1\n");
-//      }
-   printf("\nPlease keep the 'x_Num,y_Num'.");
-   int a,b,winner,turn=0,map[y_size][x_size]={0,0,0,0,0,0,0,0,0};
-   int* where=&map[0][0];
-   while(1){
-       int gmae_over=0,move=0;
-       turn++;
-       printf("\n");
-       scanf("%d,%d",&a,&b);
-       if(a==0&&b==0){
-           break;
-       }
-       else if (a>x_size||b>y_size||a<1||b<1){
-           printf("\nPlease keep the '1~3,1~3'.\n");
-           turn--;
-       }
-       else if(map[b-1][a-1]==0){
-           if(turn%2==1){
-               map[b-1][a-1]=1;
-           }
-           else{
-               map[b-1][a-1]=2;
-           }
+    int a,b,turn=0,map[y_size][x_size]={0,0,0,0,0,0,0,0,0};
+    while(1){
+        print(&map[0][0]);
+        printf("\nPlease keep the 'x_Num,y_Num'.\n%d Player turn\n",(turn%2+1));
+        turn++;
+        scanf("%d,%d",&a,&b);
+        if (a>x_size||b>y_size||a<1||b<1){
+            printf("\nPlease keep the '1~3,1~3'.\n");
+            turn--;
+        }
+        else if(map[b-1][a-1]==0){
+            if(turn%2==1){
+                map[b-1][a-1]=1;
+            }
+            else{
+                map[b-1][a-1]=2;
+            }
             printf("\n");
-            for(int i=1;i<y_size+1;i++){
-                for (int j=1;j<x_size+1;j++){
-                    if(map[i-1][j-1]==1){
-                        printf("O");
-                    }
-                    else if(map[i-1][j-1]==2){
-                        printf("X");
-                    }
-                    else{
-                        printf("*");
-                    }
-                }
-                printf("\n");
-            }
-            gmae_over=1;
-            for(int i=0;i<9;i++){
-                gmae_over*= *(where+i);
-            }
-            if(gmae_over!=0){
-                printf("\nGame Over\nyour play turn is %d",turn);
-                break;
-            }
-            move=0;
-            gmae_over=1;
-            for(int i=0;i<3;i++){
-                for(int j=0;j<3;j++){
-                gmae_over*= *(where+j);
-                }
-                if(gmae_over==1){
-                    winner=1;
-                    printf("\nWinner is 1 Player");
-                    break;
-                }
-                else if(gmae_over==8){
-                    winner=2;
-                    printf("\nWinner is 2 Player");
-                    break;
-                }
-                else{
-                    gmae_over=1;
-                    winner=0;
-                }
-            }
-            if(winner==1||winner==2){
-                break;
-            }
-            for(int i=0;i<3;i++){
-                for(int j=0;j<3;j++){
-                gmae_over*= *(where+move);
-                move+=3;
-                }
-                if(gmae_over==1){
-                    winner=1;
-                    printf("\nWinner is 1 Player");
-                    break;
-                }
-                else if(gmae_over==8){
-                    winner=2;
-                    printf("\nWinner is 2 Player");
-                    break;
-                }
-                else{
-                    gmae_over=1;
-                    move-=5;
-                    winner=0;
-                }
-            }
-            if(winner==1||winner==2){
-                break;
-            }
-            if (*where**(where+4)**(where+8)==1||*(where+2)**(where+4)**(where+6)==1){
-                printf("\nWinner is 1 Player");
-                break;
-            }
-            else if(*where**(where+4)**(where+8)==8||*(where+2)**(where+4)**(where+6)==8){
-                printf("\nWinner is 2 Player");
-                break;
-            }
         }
         else{
             printf("\nagain please\n");
             turn--;
         }
+        if(game_over(&map[0][0])==1||game_over(&map[0][0])==2){
+            print(&map[0][0]);
+            printf("%d player winner!",game_over(&map[0][0]));
+            break;
+        }
+        else if(game_over(&map[0][0])==3){
+            print(&map[0][0]);
+            printf("Game Over");
+            break;
+        }
     }
-    char again;
-    printf("\nDo you want play again?(y/n)\n");
-    scanf("%s",&again);
-    if(again=='y'){
-        printf("again go!\n");
-        goto re;
-    }
-    else{
-        return 0;
-    }
+    //윈도우용 대기(ms단위)(1000=1초)
+    Sleep(5000);
+    //Linux용 대기(s단위)
+    //sleep(30); 주의 소문자's'임
+    return 0;
 }
