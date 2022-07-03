@@ -1,0 +1,26 @@
+Month
+1- abrams
+2- blackpanther /12
+3- stuart
+4- sherman
+5- sheridan
+6- tiger
+7- priest
+8- puma
+9- thunder
+10- wolverine
+11- leopard
+12- redback
+
+Day_ASCII
+
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
