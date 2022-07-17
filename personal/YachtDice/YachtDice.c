@@ -4,6 +4,7 @@
 #include<conio.h>
 #include<windows.h>
 #define DSize 7
+int remember[5]={0,};
 
 //임시 key set wasd 사용, k = keep on/off 기능과 점수 선택, r = 주사위 던지기
 
@@ -15,6 +16,8 @@ int RandomDice(int *a);
 int key();
 //Print location
 void gotoxy(int x, int y);
+//KeepNum you want numbers
+void KeepNum(int *x,int y);
 
 int main(){
     //Right Slot Machine Array
@@ -29,6 +32,12 @@ int main(){
         }
         else if(keyinput == 'q'){
             break;
+        }
+        else if(keyinput=='k'){
+            printf("1~5번중 선택해 주세요 : ?\b");
+            scanf("%d",&keyinput);
+            KeepNum(dice[3],keyinput);
+            gotoxy(0,7);
         }
     }
 }
@@ -56,6 +65,12 @@ int RandomDice(int *a){
         //dice num setting
         *(a+i)=rand()%6+1;
     }
+    for(int i=0;i<5;i++){
+            //dice keep num setting
+            if(remember[i]!=0){
+                *(a+1+i)=remember[i];
+            }
+        }
     gotoxy(0,0);
     //a를 받은위치는 배열의 3번째 줄이므로 처음으로 돌려줌
     a-=(DSize*3);
@@ -90,4 +105,51 @@ void gotoxy (int x /*x의 위치*/,int y /*y의 위치*/){
     Pos.X = x; //움직일 x 위치
     Pos.Y = y; //움직일 y 위치
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),Pos);
+}
+
+void KeepNum(int *x,int y){
+    switch(y){
+    case 1:
+        if(remember[0]==0){
+            remember[0]=*(x+1);
+        }
+        else{
+            remember[0]=0;
+        }
+        break;
+    case 2:
+        if(remember[1]==0){
+            remember[1]=*(x+2);
+        }
+        else{
+            remember[1]=0;
+        }
+        break;
+    case 3:
+        if(remember[2]==0){
+            remember[2]=*(x+3);
+        }
+        else{
+            remember[2]=0;
+        }
+        break;
+    case 4:
+        if(remember[3]==0){
+            remember[3]=*(x+4);
+        }
+        else{
+            remember[3]=0;
+        }
+        break;
+    case 5:
+        if(remember[4]==0){
+            remember[4]=*(x+5);
+        }
+        else{
+            remember[4]=0;
+        }
+        break;
+    default:
+        break;
+    }
 }
