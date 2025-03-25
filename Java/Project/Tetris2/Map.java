@@ -1,10 +1,10 @@
 package Project.Tetris2;
 
 class Map {
-    //필드 부분
-    private int y;
-    private int x;
-    private int[][] map;
+    //필드 부분 이거 int 만 쓰면 뭐더라..? 찾아보자
+    int y; // 이렇게 써야지 상속시에 자식 클래스에서 접근이 되더라
+    int x;
+    int[][] map;
     //생성자 메소드
     Map(int x, int y){
         this.x=x;
