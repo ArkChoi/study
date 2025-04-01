@@ -9,7 +9,7 @@ public class Block extends Map{
         super(x, y);//부모 클레스의 생성자 불러오기
     }
 
-    void cheak_block(){
+    boolean cheak_block(){
         block=0; //블럭 체크용 변수
         for(int i=0;i<y;i++){
             for(int j=0;j<x;j++){
@@ -21,18 +21,28 @@ public class Block extends Map{
             }
         }
         if(block == 0){ //블럭을 못 찾았다면
-            System.out.println("블럭 만들겠습니다!"); //임시 코드
-            create_block();
+            block=create_block();
+            if(block==0){ //게임오버 기준.
+                System.out.println("Game Over!");
+                return false;
+            }
         }
         else{ //블럭을 찾았다면
             falling_block();
         }
+        return true;
     }
     
-    void create_block(){ //밑에 블럭 생성에서 보다 싶이 완전 테트리스 전용임
+    int create_block(){ //밑에 블럭 생성에서 보다 싶이 완전 테트리스 전용임
         block_x = (x_get()/2); //블럭 x 축에 중앙 찾기
         block_y = 1; //블럭 y 축에 칸 밑으로 보내기기
-        map[block_y][block_x] = 91; //블럭 생성
+        if(map[block_y][block_x]==0){ //생성위치에 블럭이 없다면
+            map[block_y][block_x] = 91; //블럭 생성
+            return 1;
+        }
+        else{ //생성위치에 블럭이 있으면
+            return 0;
+        }
         //아직은 코드가 없으나 블럭 구조를 그리는 메소드가 추가되어야함
     }
 
@@ -40,6 +50,9 @@ public class Block extends Map{
         if(map[block_y+1][block_x]==0){ //밑에 공간이 비어있다면
             map[block_y+1][block_x] = 91; //1칸 밑 공간으로 내리기
             map[block_y][block_x] = 0; //위에있던 블럭 제거
+        }
+        else{// 밑에 어떠한 형태라도 블럭이 있다면
+            map[block_y][block_x] = 92; //임시 코드니 정지 블럭 나중에 바꿔
         }
     }
 }
