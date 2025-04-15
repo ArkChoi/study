@@ -23,10 +23,10 @@ public class Tetris {
                 Runtime.getRuntime().exec("clear"); //Linux 명령어를 시행했다.. 메소드 미숙지
             }
             //종결위치
-            System.out.flush();
-            main_map.map_print();
+
+            main_map.map_print(); //맵 출력 ㅇㅇ
             life = main_map.cheak_block();//life를 통해 패배 조건 형성
-            System.out.println();//맵 아직 초기화를 안해서 표현상 한칸 띄기
+            
             Thread.sleep(250); //시간 밀리세크로 대기시키는 코드, 1000이 1초이다. throws 문을 만든 장본인
         }
     }
