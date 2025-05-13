@@ -56,8 +56,8 @@ public class Map {
                             map[i][j]=0;
                             cheak = true;
                             break;
-                        case 'a':
-                            System.out.println(j+" a");
+                        case 'd':
+                            System.out.println(j);
                             map[i][j+1]=97;
                             map[i][j]=0;
                             cheak = true;
@@ -67,8 +67,8 @@ public class Map {
                             map[i][j]=0;
                             cheak = true;
                             break;
-                        case 'd':
-                            System.out.println(j+" d");
+                        case 'a':
+                            System.out.println(j);
                             map[i][j-1]=97;
                             map[i][j]=0;
                             cheak = true;
